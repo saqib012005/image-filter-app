@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Image Filter App</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Image Filter App 🎨</h1>
+
+<form action="/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" name="image" required>
+
+    <select name="filter">
+        <option value="gray">Grayscale</option>
+        <option value="cartoon">Cartoon</option>
+        <option value="sketch">Sketch</option>
+    </select>
+
+    <button type="submit">Apply Filter</button>
+</form>
+
+{% if output_image %}
+    <h2>Result:</h2>
+    <img src="{{ url_for('static', filename='../outputs/' + output_image) }}" width="300">
+    <br><br>
+    <a href="/download">Download Image</a>
+{% endif %}
+
+</body>
+</html>
