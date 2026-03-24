@@ -1,31 +1,85 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Image Filter App</title>
+    <title>AI Image Filter Studio</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<h1>Image Filter App 🎨</h1>
+<div class="container">
+    <h1>🚀 AI Image Filter Studio</h1>
+    <p>Drag & drop or upload your image</p>
 
-<form action="/upload" method="POST" enctype="multipart/form-data">
-    <input type="file" name="image" required>
+    <div class="upload-box" id="drop-area">
+        <input type="file" id="fileElem" name="image" hidden>
+        <p>📂 Drop Image Here or Click</p>
+    </div>
 
-    <select name="filter">
-        <option value="gray">Grayscale</option>
-        <option value="cartoon">Cartoon</option>
-        <option value="sketch">Sketch</option>
-    </select>
+    <img id="preview" class="preview-img" style="display:none;">
 
-    <button type="submit">Apply Filter</button>
-</form>
+    <form action="/upload" method="POST" enctype="multipart/form-data" id="form">
+        <input type="file" name="image" id="hiddenInput" hidden>
 
-{% if output_image %}
-    <h2>Result:</h2>
-    <img src="{{ url_for('static', filename='../outputs/' + output_image) }}" width="300">
-    <br><br>
-    <a href="/download">Download Image</a>
-{% endif %}
+        <select name="filter" class="dropdown">
+            <option value="gray">Grayscale</option>
+            <option value="cartoon">Cartoon</option>
+            <option value="sketch">Sketch</option>
+        </select>
+
+        <button type="submit" class="btn">Apply Filter 🚀</button>
+    </form>
+
+    <div id="loader" class="loader" style="display:none;"></div>
+
+    {% if output_image %}
+    <div class="result-box">
+        <h2>Before vs After</h2>
+        <div class="compare">
+            <img src="{{ url_for('static', filename='../uploads/' + output_image) }}">
+            <img src="{{ url_for('static', filename='../outputs/' + output_image) }}">
+        </div>
+        <a href="/download" class="download-btn">⬇ Download</a>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+const dropArea = document.getElementById("drop-area");
+const fileElem = document.getElementById("fileElem");
+const hiddenInput = document.getElementById("hiddenInput");
+const preview = document.getElementById("preview");
+const loader = document.getElementById("loader");
+
+dropArea.addEventListener("click", () => fileElem.click());
+
+fileElem.addEventListener("change", handleFiles);
+
+dropArea.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropArea.style.border = "2px dashed #00ff99";
+});
+
+dropArea.addEventListener("drop", e => {
+    e.preventDefault();
+    handleFiles({ target: { files: e.dataTransfer.files } });
+});
+
+function handleFiles(e) {
+    const file = e.target.files[0];
+    hiddenInput.files = e.target.files;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        preview.src = reader.result;
+        preview.style.display = "block";
+    };
+    reader.readAsDataURL(file);
+}
+
+document.getElementById("form").addEventListener("submit", () => {
+    loader.style.display = "block";
+});
+</script>
 
 </body>
 </html>
