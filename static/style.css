@@ -1,12 +1,74 @@
 body {
-    text-align: center;
-    font-family: Arial;
-    background: #111;
+    margin: 0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(135deg, #141e30, #243b55);
     color: white;
+    text-align: center;
 }
 
-button {
+.container {
+    padding: 40px;
+}
+
+.upload-box {
+    border: 2px dashed #aaa;
+    padding: 40px;
+    margin: 20px auto;
+    width: 300px;
+    cursor: pointer;
+    border-radius: 15px;
+}
+
+.preview-img {
+    width: 250px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+.dropdown {
     padding: 10px;
+    margin: 10px;
+}
+
+.btn {
+    padding: 12px;
     background: #00ff99;
     border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.loader {
+    margin: 20px auto;
+    border: 5px solid #ccc;
+    border-top: 5px solid #00ff99;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+
+.compare {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.compare img {
+    width: 250px;
+    border-radius: 10px;
+}
+
+.download-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px;
+    background: #ff4b5c;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
 }
